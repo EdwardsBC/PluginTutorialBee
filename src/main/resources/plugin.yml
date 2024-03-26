@@ -1,0 +1,26 @@
+name: ${name}
+description: ${description}
+author: ${author}
+main: ${mainClass}
+version: ${version}
+api-version: 1.20
+
+commands:
+  set:
+    description: Establece el estado de las abejas
+    usage: /<command> <Angry|Strength> <Entity> <Value>
+    permission: bee.command.set
+    permission-message: No tienes permiso para usar este comando.
+  status:
+    description: Muestra el estado de las abejas
+    usage: /<command> <Entity>
+    permission: bee.command.status
+    permission-message: No tienes permiso para usar este comando.
+
+permissions:
+  bee.command.set:
+    description: Permite al usuario usar el comando /set
+    default: op
+  bee.command.status:
+    description: Permite al usuario usar el comando /status
+    default: op
