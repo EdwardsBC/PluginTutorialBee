@@ -1,0 +1,6 @@
+me\ewahv1\plugin\Commands\Bee\SetBeeCommand.class
+me\ewahv1\plugin\Commands\Bee\StatusBeeCommand.class
+me\ewahv1\plugin\Listeners\Trinket\ThePowerOfBees.class
+me\ewahv1\plugin\Main.class
+me\ewahv1\plugin\ConfigManager.class
+me\ewahv1\plugin\Listeners\Bee\BeeListener.class

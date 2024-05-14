@@ -1,18 +1,22 @@
 package me.ewahv1.plugin.Commands.Bee;
 
-import me.ewahv1.plugin.Database.DatabaseConnection;
+import me.ewahv1.plugin.ConfigManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StatusBeeCommand implements CommandExecutor, TabCompleter {
+
+    private ConfigManager config;
+
+    public StatusBeeCommand(ConfigManager config) {
+        this.config = config;
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -36,25 +40,19 @@ public class StatusBeeCommand implements CommandExecutor, TabCompleter {
         }
 
         try {
-            PreparedStatement psStatus = DatabaseConnection.getConnection().prepareStatement("SELECT Angry, Strength FROM dif_bee_settings WHERE ID = 1");
-            ResultSet rs = psStatus.executeQuery();
+            boolean isAngry = (boolean) config.getAttribute("Angry");
+            int strength = (int) config.getAttribute("Strength");
 
-            if (rs.next()) {
-                boolean isAngry = rs.getInt("Angry") == 1;
-                int strength = rs.getInt("Strength");
-
-                String statusMessage = "Las abejas están " + (isAngry ? "enojadas" : "tranquilas") + " y tienen fuerza " + (strength > 0 ? strength : "0") + ".";
-                player.sendMessage(statusMessage);
-            }
+            String statusMessage = "Las abejas están " + (isAngry ? "enojadas" : "tranquilas") + " y tienen fuerza " + (strength > 0 ? strength : "0") + ".";
+            player.sendMessage(statusMessage);
         } catch (Exception e) {
-            e.printStackTrace();
+            player.sendMessage("Error al leer el archivo de configuración.");
         }
 
         return true;
     }
 
-
-        @Override
+    @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
 

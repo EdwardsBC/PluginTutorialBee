@@ -1,17 +1,22 @@
 package me.ewahv1.plugin.Commands.Bee;
 
-import me.ewahv1.plugin.Database.DatabaseConnection;
+import me.ewahv1.plugin.ConfigManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SetBeeCommand implements CommandExecutor, TabCompleter {
+
+    private ConfigManager config;
+
+    public SetBeeCommand(ConfigManager config) {
+        this.config = config;
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -40,23 +45,19 @@ public class SetBeeCommand implements CommandExecutor, TabCompleter {
             case "angry":
                 try {
                     boolean angry = Boolean.parseBoolean(value);
-                    PreparedStatement statement = DatabaseConnection.getConnection().prepareStatement("UPDATE dif_bee_settings SET Angry = ? WHERE ID = 1");
-                    statement.setBoolean(1, angry);
-                    statement.executeUpdate();
+                    config.setAttribute("Angry", angry);
                 } catch (Exception e) {
-                    player.sendMessage("Error al actualizar la base de datos.");
+                    player.sendMessage("Error al actualizar el archivo de configuración.");
                 }
                 break;
             case "strength":
                 try {
                     int strength = Integer.parseInt(value);
-                    PreparedStatement statement = DatabaseConnection.getConnection().prepareStatement("UPDATE dif_bee_settings SET Strength = ? WHERE ID = 1");
-                    statement.setInt(1, strength);
-                    statement.executeUpdate();
+                    config.setAttribute("Strength", strength);
                 } catch (NumberFormatException e) {
                     player.sendMessage("Por favor, introduce un número válido para 'strength'.");
                 } catch (Exception e) {
-                    player.sendMessage("Error al actualizar la base de datos.");
+                    player.sendMessage("Error al actualizar el archivo de configuración.");
                 }
                 break;
             default:
@@ -67,7 +68,7 @@ public class SetBeeCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
-        @Override
+    @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
 
