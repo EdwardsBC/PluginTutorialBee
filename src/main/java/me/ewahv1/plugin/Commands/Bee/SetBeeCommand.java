@@ -20,6 +20,9 @@ public class SetBeeCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        // Recargar el archivo de configuración
+        config.reload();
+
         if (!(sender instanceof Player)) {
             sender.sendMessage("Este comando solo puede ser ejecutado por un jugador.");
             return true;

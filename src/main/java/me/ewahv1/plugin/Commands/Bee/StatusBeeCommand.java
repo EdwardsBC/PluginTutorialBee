@@ -20,6 +20,9 @@ public class StatusBeeCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        // Recargar el archivo de configuración
+        config.reload();
+
         if (!(sender instanceof Player)) {
             sender.sendMessage("Este comando solo puede ser ejecutado por un jugador.");
             return true;
@@ -40,8 +43,8 @@ public class StatusBeeCommand implements CommandExecutor, TabCompleter {
         }
 
         try {
-            boolean isAngry = (boolean) config.getAttribute("Angry");
-            int strength = (int) config.getAttribute("Strength");
+            boolean isAngry = Boolean.parseBoolean((String) config.getAttribute("Angry"));
+            int strength = Integer.parseInt((String) config.getAttribute("Strength"));
 
             String statusMessage = "Las abejas están " + (isAngry ? "enojadas" : "tranquilas") + " y tienen fuerza " + (strength > 0 ? strength : "0") + ".";
             player.sendMessage(statusMessage);
