@@ -17,8 +17,7 @@ public class ConfigManager {
         try {
             String configPath = "plugins/" + pluginName + "/configuraciones/config.json";
             configFile = new File(configPath);
-            if (!configFile.exists()) {
-                // Crear las carpetas y el archivo si no existen
+            if (!configFile.exists()) {      
                 configFile.getParentFile().mkdirs();
                 configFile.createNewFile();
 
